@@ -4,8 +4,6 @@
 #include <algorithm>
 #include <array>
 
-#include <SFML/Graphics.hpp>
-
 #include "vector2.h"
 #include "triangle.h"
 #include "delaunay.h"
@@ -28,7 +26,6 @@ int main(int argc, char * argv[])
 	{
 		numberPoints = atoi(argv[1]);
 	}
-	srand (time(NULL));
 
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
@@ -56,50 +53,23 @@ int main(int argc, char * argv[])
 	for(const auto &e : edges)
 		std::cout << e << std::endl;
 
-	// SFML window
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
+	//// Transform each points of each vector as a rectangle
+	//std::vector<sf::RectangleShape*> squares;
 
-	// Transform each points of each vector as a rectangle
-	std::vector<sf::RectangleShape*> squares;
+	//for(const auto p : points) {
+	//	sf::RectangleShape *c1 = new sf::RectangleShape(sf::Vector2f(4, 4));
+	//	c1->setPosition(p.x, p.y);
+	//	squares.push_back(c1);
+	//}
 
-	for(const auto p : points) {
-		sf::RectangleShape *c1 = new sf::RectangleShape(sf::Vector2f(4, 4));
-		c1->setPosition(p.x, p.y);
-		squares.push_back(c1);
-	}
-
-	// Make the lines
-	std::vector<std::array<sf::Vertex, 2> > lines;
-	for(const auto &e : edges) {
-		lines.push_back({{
-			sf::Vertex(sf::Vector2f(e.p1.x + 2, e.p1.y + 2)),
-			sf::Vertex(sf::Vector2f(e.p2.x + 2, e.p2.y + 2))
-		}});
-	}
-
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-
-		window.clear();
-
-		// Draw the squares
-		for(const auto &s : squares) {
-			window.draw(*s);
-		}
-
-		// Draw the lines
-		for(const auto &l : lines) {
-			window.draw(l.data(), 2, sf::Lines);
-		}
-
-		window.display();
-	}
+	//// Make the lines
+	//std::vector<std::array<sf::Vertex, 2> > lines;
+	//for(const auto &e : edges) {
+	//	lines.push_back({{
+	//		sf::Vertex(sf::Vector2f(e.p1.x + 2, e.p1.y + 2)),
+	//		sf::Vertex(sf::Vector2f(e.p2.x + 2, e.p2.y + 2))
+	//	}});
+	//}
 
 	return 0;
 }
