@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <iterator>
 #include <algorithm>
@@ -53,6 +54,10 @@ int main(int argc, char * argv[])
 	for(const auto &e : edges)
 		std::cout << e << std::endl;
 
+	std::ofstream objFile;
+	objFile.open("test.obj");
+	objFile << "g test" << std::endl << std::endl;
+
 	//// Transform each points of each vector as a rectangle
 	//std::vector<sf::RectangleShape*> squares;
 
@@ -70,6 +75,8 @@ int main(int argc, char * argv[])
 	//		sf::Vertex(sf::Vector2f(e.p2.x + 2, e.p2.y + 2))
 	//	}});
 	//}
+
+	objFile.close();
 
 	return 0;
 }
