@@ -9,21 +9,22 @@
 #include "triangle.h"
 #include "delaunay.h"
 
-float RandomFloat(float a, float b) {
-    const float random = ((float) rand()) / (float) RAND_MAX;
-    const float diff = b - a;
-    const float r = random * diff;
-    return a + r;
+float RandomFloat(float a, float b)
+{
+	const float random = ((float)rand()) / (float)RAND_MAX;
+	const float diff = b - a;
+	const float r = random * diff;
+	return a + r;
 }
 
 int main(int argc, char * argv[])
 {
 	int numberPoints = 40;
-	if (argc==1)
+	if (argc == 1)
 	{
-		numberPoints = (int) roundf(RandomFloat(4, numberPoints));
+		numberPoints = (int)roundf(RandomFloat(4, numberPoints));
 	}
-	else if (argc>1)
+	else if (argc > 1)
 	{
 		numberPoints = atoi(argv[1]);
 	}
@@ -31,7 +32,8 @@ int main(int argc, char * argv[])
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
 	std::vector<Vector2<float> > points;
-	for(int i = 0; i < numberPoints; ++i) {
+	for (int i = 0; i < numberPoints; ++i)
+	{
 		points.push_back(Vector2<float>(RandomFloat(0, 800), RandomFloat(0, 600)));
 	}
 
@@ -43,15 +45,15 @@ int main(int argc, char * argv[])
 	std::cout << " ========= ";
 
 	std::cout << "\nPoints : " << points.size() << std::endl;
-	for(const auto &p : points)
+	for (const auto &p : points)
 		std::cout << p << std::endl;
 
 	std::cout << "\nTriangles : " << triangles.size() << std::endl;
-	for(const auto &t : triangles)
+	for (const auto &t : triangles)
 		std::cout << t << std::endl;
 
 	std::cout << "\nEdges : " << edges.size() << std::endl;
-	for(const auto &e : edges)
+	for (const auto &e : edges)
 		std::cout << e << std::endl;
 
 	std::ofstream objFile;
