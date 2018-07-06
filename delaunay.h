@@ -13,7 +13,7 @@ class Delaunay
 public:
 	using TriangleType = Triangle<T>;
 	using EdgeType = Edge<T>;
-	using VertexType = Vector2<T>;
+	using VertexType = Point<T>;
 
 	const std::vector<TriangleType>& triangulate(std::vector<VertexType> &vertices)
 	{

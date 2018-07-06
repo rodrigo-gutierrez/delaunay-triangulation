@@ -8,5 +8,5 @@ add_executable(main
 	edge.h
 	numeric.h
 	triangle.h
-	vector2.h
+	point.h
 )

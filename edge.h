@@ -6,7 +6,7 @@ template <class T>
 class Edge
 {
 public:
-	using VertexType = Vector2<T>;
+	using VertexType = Point<T>;
 
 	Edge(const VertexType &p1, const VertexType &p2) : p1(p1), p2(p2), isBad(false) {};
 	Edge(const Edge &e) : p1(e.p1), p2(e.p2), isBad(false) {};

@@ -31,10 +31,10 @@ int main(int argc, char * argv[])
 
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
-	std::vector<Vector2<float> > points;
+	std::vector<Point<float> > points;
 	for (int i = 0; i < numberPoints; ++i)
 	{
-		points.push_back(Vector2<float>(RandomFloat(0, 800), RandomFloat(0, 600)));
+		points.push_back(Point<float>(RandomFloat(0, 800), RandomFloat(0, 600)));
 	}
 
 	Delaunay<float> triangulation;

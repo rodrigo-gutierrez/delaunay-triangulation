@@ -6,30 +6,30 @@
 #include <cmath>
 
 template <typename T>
-class Vector2
+class Point
 {
 public:
 	//
 	// Constructors
 	//
 
-	Vector2() :x(0), y(0) {}
+	Point() : x(0), y(0) {}
 
-	Vector2(T _x, T _y) : x(_x), y(_y) {}
+	Point(T _x, T _y) : x(_x), y(_y) {}
 
-	Vector2(const Vector2 &v) : x(v.x), y(v.y) {}
+	Point(const Point &v) : x(v.x), y(v.y) {}
 
 	//
 	// Operations
 	//
-	T dist2(const Vector2 &v) const
+	T dist2(const Point &v) const
 	{
 		T dx = x - v.x;
 		T dy = y - v.y;
 		return dx * dx + dy * dy;
 	}
 
-	T dist(const Vector2 &v) const
+	T dist(const Point &v) const
 	{
 		return sqrt(dist2(v));
 	}
@@ -45,32 +45,32 @@ public:
 };
 
 template <>
-float Vector2<float>::dist(const Vector2<float> &v) const
+float Point<float>::dist(const Point<float> &v) const
 {
 	return hypotf(x - v.x, y - v.y);
 }
 
 template <>
-double Vector2<double>::dist(const Vector2<double> &v) const
+double Point<double>::dist(const Point<double> &v) const
 {
 	return hypot(x - v.x, y - v.y);
 }
 
 template<typename T>
-std::ostream &operator << (std::ostream &str, Vector2<T> const &point)
+std::ostream &operator << (std::ostream &str, Point<T> const &point)
 {
 	return str << "Point x: " << point.x << " y: " << point.y;
 }
 
 template<typename T>
-bool operator == (const Vector2<T>& v1, const Vector2<T>& v2)
+bool operator == (const Point<T>& v1, const Point<T>& v2)
 {
 	return (v1.x == v2.x) && (v1.y == v2.y);
 }
 
 template<class T>
 typename std::enable_if<!std::numeric_limits<T>::is_integer, bool>::type
-almost_equal(const Vector2<T>& v1, const Vector2<T>& v2, int ulp = 2)
+almost_equal(const Point<T>& v1, const Point<T>& v2, int ulp = 2)
 {
 	return almost_equal(v1.x, v2.x, ulp) && almost_equal(v1.y, v2.y, ulp);
 }
