@@ -2,16 +2,17 @@
 
 #include "Point.h"
 #include "Line.h"
+#include "Triangle.h"
 #include "Numeric.h"
 
 template <class T>
-class Triangle
+class Tetrahedron
 {
 public:
-	using EdgeType = Line<T>;
+	using Edge = Line<T>;
 	using Vector3 = Point<T>;
 
-	Triangle(const Vector3 &_p1, const Vector3 &_p2, const Vector3 &_p3) : p1(_p1), p2(_p2), p3(_p3), e1(_p1, _p2), e2(_p2, _p3), e3(_p3, _p1), isBad(false) {}
+	Tetrahedron(const Vector3 &_p1, const Vector3 &_p2, const Vector3 &_p3) : p1(_p1), p2(_p2), p3(_p3), e1(_p1, _p2), e2(_p2, _p3), e3(_p3, _p1), isBad(false) {}
 
 	bool containsVertex(const Vector3 &v) const
 	{
@@ -81,9 +82,13 @@ public:
 	Vector3 p1;
 	Vector3 p2;
 	Vector3 p3;
-	EdgeType e1;
-	EdgeType e2;
-	EdgeType e3;
+	Vector3 p4;
+	Edge e1;
+	Edge e2;
+	Edge e3;
+	Edge e4;
+	Edge e5;
+	Edge e6;
 	bool isBad;
 };
 

@@ -5,9 +5,9 @@
 #include <algorithm>
 #include <array>
 
-#include "vector2.h"
-#include "triangle.h"
-#include "delaunay.h"
+#include "Point.h"
+#include "Triangle.h"
+#include "Delaunay.h"
 
 float RandomFloat(float a, float b)
 {
@@ -29,54 +29,45 @@ int main(int argc, char * argv[])
 		numberPoints = atoi(argv[1]);
 	}
 
-	std::cout << "Generating " << numberPoints << " random points" << std::endl;
+	numberPoints = 4;
+
+	std::cout << "Generating " << numberPoints << " NOT random points" << std::endl;
 
 	std::vector<Point<float> > points;
-	for (int i = 0; i < numberPoints; ++i)
-	{
-		points.push_back(Point<float>(RandomFloat(0, 800), RandomFloat(0, 600)));
-	}
+	//for (int i = 0; i < numberPoints; ++i)
+	//{
+	//	points.push_back(Point<float>(RandomFloat(0, 800), RandomFloat(0, 600)));
+	//}
+	points.push_back(Point<float>(1.0f, 1.0f, 0.0f));
+	points.push_back(Point<float>(-1.0f, 1.0f, 0.0f));
+	points.push_back(Point<float>(-1.0f, -1.0f, 0.0f));
+	points.push_back(Point<float>(1.0f, -1.0f, 0.0f));
+	points.push_back(Point<float>(0.0f, 0.0f, 1.0f));
 
 	Delaunay<float> triangulation;
 	const std::vector<Triangle<float> > triangles = triangulation.triangulate(points);
 	std::cout << triangles.size() << " triangles generated\n";
-	const std::vector<Edge<float> > edges = triangulation.getEdges();
+	const std::vector<Line<float> > edges = triangulation.getEdges();
 
-	std::cout << " ========= ";
+	std::cout << std::endl << " ========= " << std::endl;
 
 	std::cout << "\nPoints : " << points.size() << std::endl;
-	for (const auto &p : points)
-		std::cout << p << std::endl;
+	for (int i = 0; i < points.size(); i++)
+		std::cout << i << " " << points[i] << std::endl;
 
 	std::cout << "\nTriangles : " << triangles.size() << std::endl;
-	for (const auto &t : triangles)
-		std::cout << t << std::endl;
+	for (int i = 0; i < triangles.size(); i++)
+		std::cout << i << " " << triangles[i] << std::endl;
 
 	std::cout << "\nEdges : " << edges.size() << std::endl;
-	for (const auto &e : edges)
-		std::cout << e << std::endl;
+	for (int i = 0; i < edges.size(); i++)
+		std::cout << i << " " << edges[i] << std::endl;
+
+	return 0;
 
 	std::ofstream objFile;
 	objFile.open("test.obj");
 	objFile << "g test" << std::endl << std::endl;
-
-	//// Transform each points of each vector as a rectangle
-	//std::vector<sf::RectangleShape*> squares;
-
-	//for(const auto p : points) {
-	//	sf::RectangleShape *c1 = new sf::RectangleShape(sf::Vector2f(4, 4));
-	//	c1->setPosition(p.x, p.y);
-	//	squares.push_back(c1);
-	//}
-
-	//// Make the lines
-	//std::vector<std::array<sf::Vertex, 2> > lines;
-	//for(const auto &e : edges) {
-	//	lines.push_back({{
-	//		sf::Vertex(sf::Vector2f(e.p1.x + 2, e.p1.y + 2)),
-	//		sf::Vertex(sf::Vector2f(e.p2.x + 2, e.p2.y + 2))
-	//	}});
-	//}
 
 	objFile.close();
 

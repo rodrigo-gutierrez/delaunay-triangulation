@@ -3,10 +3,11 @@ cmake_minimum_required (VERSION 3.0)
 project (delaunay-triangulation)
 
 add_executable(main 
-	main.cpp
-	delaunay.h
-	edge.h
-	numeric.h
-	triangle.h
-	point.h
+	Main.cpp
+	Delaunay.h
+	Line.h
+	Numeric.h
+	Triangle.h
+	Tetrahedron.h
+	Point.h
 )
