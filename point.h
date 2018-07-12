@@ -40,6 +40,12 @@ public:
 		return x * x + y * y;
 	}
 
+	Point<T> normalize() const
+	{
+		T mag = this.magnitude();
+		return Point<T>(x / mag, y / mag, z / mag);
+	}
+
 	T x;
 	T y;
 	T z;
@@ -73,13 +79,6 @@ template<typename T>
 Point<T> operator + (const Point<T>& v1, const Point<T>& v2)
 {
 	return Point<T>(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
-}
-
-template<typename T>
-Point<T> normalize(const Point<T>& v)
-{
-	T mag = v.magnitude();
-	return Point<T>(v.x / mag, v.y / mag, v.z / mag);
 }
 
 template<typename T>

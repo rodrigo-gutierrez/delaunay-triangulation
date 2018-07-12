@@ -32,3 +32,18 @@ double half(double x)
 {
 	return 0.5 * x;
 }
+
+template<class T>
+T sqrtt(T x) {}
+
+template <>
+float sqrtt(float x)
+{
+	return sqrtf(x);
+}
+
+template <>
+double sqrtt(double x)
+{
+	return sqrt(x);
+}

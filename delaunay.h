@@ -12,7 +12,7 @@ template <class T>
 class Delaunay
 {
 public:
-	using Tetra = Tetrahedron<T>; 
+	using Tetra = Tetrahedron<T>;
 	using Tri = Triangle<T>;
 	using Edge = Line<T>;
 	using Vector3 = Point<T>;
@@ -48,52 +48,37 @@ public:
 		const T midY = half(minY + maxY);
 		const T midZ = half(minZ + maxZ);
 
-		// Make super tetra
-		const Vector3 p2(minX - 20, minY - 20, maxZ + 20);
-		const Vector3 p3(minX - 20, maxY + 20, minZ - 20);
-		const Vector3 p4(minX - 20, maxY + 20, maxZ + 20);
-		const Vector3 p1(minX - 20, minY - 20, minZ - 20);
-		const Vector3 p5(maxX + 20, minY - 20, minZ - 20);
-		const Vector3 p6(maxX + 20, minY - 20, maxZ + 20);
-		const Vector3 p7(maxX + 20, maxY + 20, minZ - 20);
-		const Vector3 p8(maxX + 20, maxY + 20, maxZ + 20);
+		//const Vector3 center(midX, midY, midZ);
+		const T radius = half(deltaMax) * (T)1.1;
+		const T edge = radius * sqrtt((T)24);
+		const T height = sqrtt((T)2 / (T)3) * edge;
+		const T face = edge / sqrtt((T)3);
 
-		std::cout << "Super cube: " << std::endl;
+		// Make super tetra
+		const Vector3 p1(midX - face, midY - radius, midZ);
+		const Vector3 p2(midX + half(face), midY - radius, midZ - half(edge));
+		const Vector3 p3(midX + half(face), midY - radius, midZ + half(edge));
+		const Vector3 p4(midX, midY - radius + height, midZ);
+
+		std::cout << "Super tetra: " << std::endl;
 		std::cout << p1 << std::endl;
 		std::cout << p2 << std::endl;
 		std::cout << p3 << std::endl;
 		std::cout << p4 << std::endl;
-		std::cout << p5 << std::endl;
-		std::cout << p6 << std::endl;
-		std::cout << p7 << std::endl;
-		std::cout << p8 << std::endl;
 
-		// Create a list of triangles, and add the super cube triangles to it
-		_triangles.push_back(Tri(p1, p5, p7));
-		_triangles.push_back(Tri(p1, p7, p3));
-		_triangles.push_back(Tri(p1, p3, p4));
-		_triangles.push_back(Tri(p1, p4, p2));
-		_triangles.push_back(Tri(p3, p7, p8));
-		_triangles.push_back(Tri(p3, p8, p4));
-		_triangles.push_back(Tri(p5, p8, p7));
-		_triangles.push_back(Tri(p5, p6, p8));
-		_triangles.push_back(Tri(p1, p6, p5));
-		_triangles.push_back(Tri(p1, p2, p6));
-		_triangles.push_back(Tri(p2, p8, p6));
-		_triangles.push_back(Tri(p2, p4, p8));
+		// Create a list of tetras, and add the super tetra to it
+		_tetrahedrons.push_back(Tetra(p1, p2, p3, p4));
 
 		for (auto p = begin(vertices); p != end(vertices); p++)
 		{
-			//std::cout << "Traitement du point " << *p << std::endl;
-			std::cout << "0 _triangles contains " << _triangles.size() << " elements" << std::endl;
-
 			std::vector<Edge> polygon;
 
 			for (auto & t : _triangles)
 			{
 				//std::cout << "Processing " << std::endl << *t << std::endl;
 
-				if (t.circumCircleContains(*p))
+				//if (t.circumCircleContains(*p))
+				if (false)
 				{
 					std::cout << "Pushing bad triangle " << t << std::endl;
 					t.isBad = true;
@@ -103,18 +88,15 @@ public:
 				}
 				else
 				{
-					std::cout << " does not contains " << *p << " in his circum center" << std::endl;
+					std::cout << " does not contain " << *p << " in its circumcenter" << std::endl;
 				}
 			}
-
-			std::cout << "1 _triangles contains " << _triangles.size() << " elements" << std::endl;
 
 			_triangles.erase(std::remove_if(begin(_triangles), end(_triangles), [](Tri &t)
 			{
 				return t.isBad;
 			}), end(_triangles));
 
-			std::cout << "2 _triangles contains " << _triangles.size() << " elements" << std::endl;
 
 			for (auto e1 = begin(polygon); e1 != end(polygon); ++e1)
 			{
@@ -142,29 +124,27 @@ public:
 
 		}
 
-		std::cout << "3 _triangles contains " << _triangles.size() << " elements" << std::endl;
-
-		_triangles.erase(std::remove_if(begin(_triangles), end(_triangles), [p1, p2, p3, p4, p5, p6, p7, p8](Tri &t)
+		_tetrahedrons.erase(std::remove_if(begin(_tetrahedrons), end(_tetrahedrons), [p1, p2, p3, p4](Tetra &t)
 		{
-			return 
-				t.containsVertex(p1) || 
-				t.containsVertex(p2) || 
+			return
+				t.containsVertex(p1) ||
+				t.containsVertex(p2) ||
 				t.containsVertex(p3) ||
-				t.containsVertex(p4) || 
-				t.containsVertex(p5) || 
-				t.containsVertex(p6) || 
-				t.containsVertex(p7) || 
-				t.containsVertex(p8);
-		}), end(_triangles));
+				t.containsVertex(p4);
+		}), end(_tetrahedrons));
+
+		for (const auto t : _tetrahedrons)
+		{
+			// generate triangles
+		}
 
 		for (const auto t : _triangles)
 		{
+			// generate edges
 			_edges.push_back(t.e1);
 			_edges.push_back(t.e2);
 			_edges.push_back(t.e3);
 		}
-
-		std::cout << "4 _triangles contains " << _triangles.size() << " elements" << std::endl;
 
 		return _triangles;
 	}
